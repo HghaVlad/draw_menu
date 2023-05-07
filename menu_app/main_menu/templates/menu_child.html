@@ -1,0 +1,21 @@
+{% for child in parent.children.all %}
+
+  {% if child.children.all|length == 0 %}
+    <li><a href="/?{{ child.menu_name }}={{ child.id }}">{{ child.Name }} {{ child.Active }}</a></li>
+  {% else %}
+    <li>
+      {% if child.id in active_steps %}
+        <span class="caret mycaret{{ child.menu_name }} caret-down"><a href="/?{{ child.menu_name }}={{ child.id }}">{{ child.Name }}</a></span>
+        <ul class="nested active">
+          {% include "menu_child.html" with parent=child %}
+        </ul>
+      {% else %}
+        <span class="caret mycaret{{ child.menu_name }}"><a href="/?{{ child.menu_name }}={{ child.id }}">{{ child.Name }}</a></span>
+        <ul class="nested">
+          {% include "menu_child.html" with parent=child %}
+        </ul>
+      {% endif %}
+    </li>
+  {% endif %}
+
+{% endfor %}

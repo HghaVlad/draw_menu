@@ -1,0 +1,66 @@
+<ul id="myUL {{ menu.menu_name }}">
+    <li>
+        {% if menu.id in active_steps %}
+          <span class="caret mycaret{{ menu.menu_name }} caret-down"><a href="/?{{ menu.menu_name }}={{ menu.id }}">{{ menu.Name }}</a></span>
+          <ul class="nested active">
+              {% include "menu_child.html" with parent=menu %}
+          </ul>
+          {% else %}
+          <span class="caret mycaret{{ menu.menu_name }}"><a href="/?{{ menu.menu_name }}={{ menu.id }}">{{ menu.Name }}</a></span>
+          <ul class="nested">
+              {% include "menu_child.html" with parent=menu %}
+          </ul>
+          {% endif %}
+    </li>
+</ul>
+
+<style>
+ul, #myUL {
+  list-style-type: none;
+}
+
+#myUL {
+  margin: 0;
+  padding: 0;
+}
+
+.caret {
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none;
+}
+
+.caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.caret-down::before {
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); /* Safari */'
+  transform: rotate(90deg);
+}
+
+.nested {
+  display: none;
+}
+
+.active {
+  display: block;
+}
+</style>
+<script>
+var toggler = document.getElementsByClassName("mycaret{{ menu.menu_name }}");
+var i;
+
+for (i = 0; i < toggler.length; i++) {
+  toggler[i].addEventListener("click", function() {
+    this.parentElement.querySelector(".nested").classList.toggle("active");
+    this.classList.toggle("caret-down");
+  });
+}
+</script>
